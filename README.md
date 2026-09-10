@@ -13,7 +13,7 @@ These two facts are always true for prime numbers, but often not true if we repl
 
 The idea behind the Miller-Rabin probabilistic primality test is to check, for a given odd $n \in \mathbb{Z}$ and coprime base $a \in \mathbb{Z}$, whether it satisfies the two properties above. If not, then $n$ is definitely a composite number. However, if $n$ satisfies the two conditions for a base $a$, we cannot conclude whether it is a prime or not. In this case $n$ is either a prime or a **strong pseudoprime** to the base $a$.
 
-The test goes as follows: since $n$ is odd, we can write $n-1 = 2^sd$ for $d$ odd. Then, if $n$ is prime, we would have by Fermat's little theorem $(a^d)^{2^s} \equiv 1 \mathrm{mod} p $, and by taking $s$ successive square roots, all of the values $(a^d)^{2^r}$ for $0 \leq r \lt s $ would have to be congruent to $\pm 1$, by the second condition. The test then consists of simply checking whether this is true for all such $r$. It is clear that, starting from $r=0$, if any of the $(a^d)^{2^r}$ is congruent to $-1$, then all the subsequent values will be congruent to $1$, so it is enough to check if $a^d \equiv 1 \mathrm{mod} p$ or $(a^d)^{2^r} \equiv -1 \mathrm{mod} p$ for all $1 \leq r$ only up to $r=s-1$. 
+The test goes as follows: since $n$ is odd, we can write $n-1 = 2^sd$ for $d$ odd. Then, if $n$ is prime, we would have by Fermat's little theorem $(a^d)^{2^s} \equiv 1 \mathrm{mod} p $, and by taking $s$ successive square roots, all of the values $(a^d)^{2^r}$ for $0 \leq r \lt s$ would have to be congruent to $\pm 1$, by the second condition. The test then consists of simply checking whether this is true for all such $r$. It is clear that, starting from $r=0$, if any of the $(a^d)^{2^r}$ is congruent to $-1$, then all the subsequent values will be congruent to $1$, so it is enough to check if $a^d \equiv 1 \mathrm{mod} p$ or $(a^d)^{2^r} \equiv -1 \mathrm{mod} p$ for all $1 \leq r$ only up to $r=s-1$. 
 
 We now remark that no composite number is a strong pseudoprime for all bases. In fact, at most $1/4$ of the bases between $1\lt a\lt n-1$ can make $n$ a strong pseudoprime. This means that, if $n$ is composite and $a$ a base chosen at random, there is less than $1/4$ chance that $n$ will pass the test. By choosing $k$ different bases at random, the chance is $(1/4)^k$, which can be made arbitrarily small. Since the test is also computationally cheap (more on this later), it is very good for determining whether a number is prime or not with very high accuracy.
 
@@ -162,13 +162,13 @@ Let $S$ be a set of "small" primes such that $S \cap (T \cup \{k_2,k_3 \}) = \em
 Let $A_i := k_i(r-1) + 1$, for $i=2,3$, so that $p_i = A_i + k_i  M j$. Then for any $q \in S$, we have that
 
 $$
-\begin{align}
-q|p_1 \Leftrightarrow  j  \equiv -rM^{-1} \mathrm{mod} q \\
+\begin{aligned}
+q|p_1 \Leftrightarrow  j  \equiv -rM^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
 
-q|p_2 \Leftrightarrow   j  \equiv -A_2(k_2M)^{-1} \mathrm{mod} q \\
+q|p_2 \Leftrightarrow   j  \equiv -A_2(k_2M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
 
-q|p_3 \Leftrightarrow  j  \equiv -A_3(k_3M)^{-1} \mathrm{mod} q
-\end{align}
+q|p_3 \Leftrightarrow  j  \equiv -A_3(k_3M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q
+\end{aligned}
 $$
 
 Note that these inverses exist by the definition of $S$. Our sieve should therefore skip over the $j$'s satisfying any of the congruences above, for any prime $q \in S$, in which case one of the $p$'s won't be prime.
