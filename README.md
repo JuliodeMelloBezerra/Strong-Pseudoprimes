@@ -163,9 +163,7 @@ Let $A_i := k_i(r-1) + 1$, for $i=2,3$, so that $p_i = A_i + k_i  M j$. Then for
 
 $$
 q|p_1 \Leftrightarrow  j  \equiv -rM^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
-
 q|p_2 \Leftrightarrow   j  \equiv -A_2(k_2M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
-
 q|p_3 \Leftrightarrow  j  \equiv -A_3(k_3M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q
 $$
 
