@@ -162,13 +162,11 @@ Let $S$ be a set of "small" primes such that $S \cap (T \cup \{k_2,k_3 \}) = \em
 Let $A_i := k_i(r-1) + 1$, for $i=2,3$, so that $p_i = A_i + k_i  M j$. Then for any $q \in S$, we have that
 
 $$
-\begin{aligned}
 q|p_1 \Leftrightarrow  j  \equiv -rM^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
 
 q|p_2 \Leftrightarrow   j  \equiv -A_2(k_2M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
 
 q|p_3 \Leftrightarrow  j  \equiv -A_3(k_3M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q
-\end{aligned}
 $$
 
 Note that these inverses exist by the definition of $S$. Our sieve should therefore skip over the $j$'s satisfying any of the congruences above, for any prime $q \in S$, in which case one of the $p$'s won't be prime.
