@@ -630,9 +630,11 @@ $$
 s(t,B) = \frac{\prod_{q\leq B}\left( 1- \frac{3}{q}\right)}{\prod_{q\leq t}\left( 1- \frac{3}{q}\right)} \sim \left(\frac{\operatorname{ln}(t)}{\operatorname{ln}(B)}\right)^3.
 $$
 That means that if we take $B = t^a$ for some real number $a$, the number of survivors after the sieve will be roughly $s(t,t^a) \sim 1/a^3$. Based on the Sieve of Eratosthenes, the time complexity for sieving should be $\tilde O(B) = \tilde O(t^a)$ using our choice for $B$. So as $a$ increases, so does the time for sieving, but the number of survivors on which we need to perform primality tests decreases. This means that, in order to find $a$ such that the total time is minimal, we need to solve the (approximate) equation 
+
 $$
 t^a \approx \frac{t^2}{a^3}
 $$
+
 where the left hand side corresponds to the cost of sieving and the right hand side the cost of performing primality tests on the survivors. Since $a$ is much smaller than $t$, this means that the optimal choice should be $a=2$, so we should sieve over all primes between $t$ and  $t^2$. Experimentation shows that this is indeed a good choice. We also remark that with a segmented sieve the space complexity of our sieve algorithm should be roughly $\tilde O(t)$ for $B=t^2$.
 
 Now we are ready to implement the final part of our code:
