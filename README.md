@@ -53,7 +53,7 @@ def Sb(T):
 Now, as Prime and Prejudice[^prime] suggest, we should find two small primes $k_2,k_3$ not in $T$ such that the following intersection is non-empty in $\mathbb{Z}/4b\mathbb{Z}$ for each $b \in T$.
 
 $$
-k_2^{-1}(S_b + k_2 - 1) \cap k_3^{-1}(S_b + k_3 - 1) \neq \empty \hspace{10pt} \forall b \in T.   
+k_2^{-1}(S_b + k_2 - 1) \cap k_3^{-1}(S_b + k_3 - 1) \neq \emptyset \hspace{10pt} \forall b \in T.   
 $$
 
 Finding these two values is not difficult, but no method other than trial-and-error is given in any of the papers. Based on the examples given, we simply generate a list of primes $t<q<3t$ and try pairs by combining the first and last primes in the list, then second and penultimate, and so on. The code to generate this list and the new dictionary from the non-empty intersections is given below.
@@ -157,7 +157,7 @@ It's clear that our three candidate numbers $p_1,p_2,p_3$ will never be divisibl
 Afterwards, once we have candidates that passed the sieve, we also need to check if they really are prime numbers. We don't need absolute certainty that they are prime, because if they are not, they will likely fail the final Miller-Rabin test with respect to $T$, and then we can try again. This means that we need to check if they are highly-likely prime numbers, so in other words, we use a "pseudoprimality" test. Once again, we may use the structure of these candidates to improve on known primality tests, constructing our own customized primality test. This will be done in the second section of this chapter. 
 ### The sieve
 
-Let $S$ be a set of "small" primes such that $S \cap (T \cup \{k_2,k_3 \}) = \empty$. 
+Let $S$ be a set of "small" primes such that $S \cap (T \cup \{k_2,k_3 \}) = \emptyset$. 
 
 Let $A_i := k_i(r-1) + 1$, for $i=2,3$, so that $p_i = A_i + k_i  M j$. Then for any $q \in S$, we have that
 
@@ -612,7 +612,7 @@ First let's try to estimate the size of $M$ and of our final pseudoprime, with r
 Remember that by definition 
 
 $$
-M = 4\cdot k_2 \cdot k_3 \cdot \prod_{p<t}p
+M = 4 \cdot k_2 \cdot k_3 \cdot \prod \limits_{p<t} p
 $$
 
 where the product is over all primes smaller than $t$. This means that $\mathrm{ln}(M) = \vartheta(t) + \mathrm{ln}(4) + \mathrm{ln}(k_2) + \mathrm{ln}(k_3)$, where $\vartheta$ is Chebyshev's first function. Ignoring the extra terms and using the known asymptotic behavior of this function $\vartheta(t) \sim t$, we asymptotically approximate $M \sim e^{(1+o(1))t}$, which means the number of digits of $M$ should be roughly $\mathrm{log}(e) \cdot t$, that is, proportional to $t$. The same is true for our final pseudoprime, though with a different constant of proportionality, since it should be "slightly" bigger than $M^3$.
@@ -622,7 +622,7 @@ Now, a single Miller-Rabin test on a number with $t$ digits should have time com
 Let's now have a look at the cost of sieving. Suppose our sieve set $S$ is defined as all primes smaller than $B$, but greater than $t$. The two primes $k_2,k_3$ don't matter for these rough asymptotic estimates. Suppose further that for every prime $q \in S$, we eliminate exactly $3$ numbers from the interval of length $q$, as remarked in the section on Sieves. That means that the surviving numbers after sieving should be given by
 
 $$
-s(t,B):=\prod_{t<q\leq B}\left(1-\frac{3}{q}\right).
+s(t,B):=\prod \limits_{t<q\leq B} \left(1-\frac{3}{q}\right).
 $$
 
 Now let's look at this function more closely. First note that for each $q$, we have 
