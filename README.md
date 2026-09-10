@@ -13,9 +13,9 @@ These two facts are always true for prime numbers, but often not true if we repl
 
 The idea behind the Miller-Rabin probabilistic primality test is to check, for a given odd $n \in \mathbb{Z}$ and coprime base $a \in \mathbb{Z}$, whether it satisfies the two properties above. If not, then $n$ is definitely a composite number. However, if $n$ satisfies the two conditions for a base $a$, we cannot conclude whether it is a prime or not. In this case $n$ is either a prime or a **strong pseudoprime** to the base $a$.
 
-The test goes as follows: since $n$ is odd, we can write $n-1 = 2^sd$ for $d$ odd. Then, if $n$ is prime, we would have by Fermat's little theorem $(a^d)^{2^s} \equiv 1 \mathrm{mod} p $, and by taking $s$ successive square roots, all of the values $(a^d)^{2^r}$ for $0 \leq r < s $ would have to be congruent to $\pm 1$, by the second condition. The test then consists of simply checking whether this is true for all such $r$. It is clear that, starting from $r=0$, if any of the $(a^d)^{2^r}$ is congruent to $-1$, then all the subsequent values will be congruent to $1$, so it is enough to check if $a^d \equiv 1 \mathrm{mod} p$ or $(a^d)^{2^r} \equiv -1 \mathrm{mod} p$ for all $1 \leq r$ only up to $r=s-1$. 
+The test goes as follows: since $n$ is odd, we can write $n-1 = 2^sd$ for $d$ odd. Then, if $n$ is prime, we would have by Fermat's little theorem $(a^d)^{2^s} \equiv 1 \mathrm{mod} p $, and by taking $s$ successive square roots, all of the values $(a^d)^{2^r}$ for $0 \leq r \lt s $ would have to be congruent to $\pm 1$, by the second condition. The test then consists of simply checking whether this is true for all such $r$. It is clear that, starting from $r=0$, if any of the $(a^d)^{2^r}$ is congruent to $-1$, then all the subsequent values will be congruent to $1$, so it is enough to check if $a^d \equiv 1 \mathrm{mod} p$ or $(a^d)^{2^r} \equiv -1 \mathrm{mod} p$ for all $1 \leq r$ only up to $r=s-1$. 
 
-We now remark that no composite number is a strong pseudoprime for all bases. In fact, at most $1/4$ of the bases between $1<a<n-1$ can make $n$ a strong pseudoprime. This means that, if $n$ is composite and $a$ a base chosen at random, there is less than $1/4$ chance that $n$ will pass the test. By choosing $k$ different bases at random, the chance is $(1/4)^k$, which can be made arbitrarily small. Since the test is also computationally cheap (more on this later), it is very good for determining whether a number is prime or not with very high accuracy.
+We now remark that no composite number is a strong pseudoprime for all bases. In fact, at most $1/4$ of the bases between $1\lt a\lt n-1$ can make $n$ a strong pseudoprime. This means that, if $n$ is composite and $a$ a base chosen at random, there is less than $1/4$ chance that $n$ will pass the test. By choosing $k$ different bases at random, the chance is $(1/4)^k$, which can be made arbitrarily small. Since the test is also computationally cheap (more on this later), it is very good for determining whether a number is prime or not with very high accuracy.
 
 However, if the bases are chosen from a fixed set, say the set $T$ of all primes smaller than a given $t>0$, then it is possible to create a strong pseudoprime to all bases in this set. A method for doing this was described by Arnault [^arnault], and we dedicate the rest of this article to implementing it.
 
@@ -56,7 +56,7 @@ $$
 k_2^{-1}(S_b + k_2 - 1) \cap k_3^{-1}(S_b + k_3 - 1) \neq \emptyset \hspace{10pt} \forall b \in T.   
 $$
 
-Finding these two values is not difficult, but no method other than trial-and-error is given in any of the papers. Based on the examples given, we simply generate a list of primes $t<q<3t$ and try pairs by combining the first and last primes in the list, then second and penultimate, and so on. The code to generate this list and the new dictionary from the non-empty intersections is given below.
+Finding these two values is not difficult, but no method other than trial-and-error is given in any of the papers. Based on the examples given, we simply generate a list of primes $t\lt q\lt 3t$ and try pairs by combining the first and last primes in the list, then second and penultimate, and so on. The code to generate this list and the new dictionary from the non-empty intersections is given below.
 
 <details>
 <summary>Click to show code</summary>
@@ -612,7 +612,7 @@ First let's try to estimate the size of $M$ and of our final pseudoprime, with r
 Remember that by definition 
 
 $$
-M = 4 \cdot k_2 \cdot k_3 \cdot \prod \limits_{p<t} p
+M = 4 \cdot k_2 \cdot k_3 \cdot \prod \limits_{p \lt t} p
 $$
 
 where the product is over all primes smaller than $t$. This means that $\mathrm{ln}(M) = \vartheta(t) + \mathrm{ln}(4) + \mathrm{ln}(k_2) + \mathrm{ln}(k_3)$, where $\vartheta$ is Chebyshev's first function. Ignoring the extra terms and using the known asymptotic behavior of this function $\vartheta(t) \sim t$, we asymptotically approximate $M \sim e^{(1+o(1))t}$, which means the number of digits of $M$ should be roughly $\mathrm{log}(e) \cdot t$, that is, proportional to $t$. The same is true for our final pseudoprime, though with a different constant of proportionality, since it should be "slightly" bigger than $M^3$.
@@ -622,13 +622,13 @@ Now, a single Miller-Rabin test on a number with $t$ digits should have time com
 Let's now have a look at the cost of sieving. Suppose our sieve set $S$ is defined as all primes smaller than $B$, but greater than $t$. The two primes $k_2,k_3$ don't matter for these rough asymptotic estimates. Suppose further that for every prime $q \in S$, we eliminate exactly $3$ numbers from the interval of length $q$, as remarked in the section on Sieves. That means that the surviving numbers after sieving should be given by
 
 $$
-s(t,B):=\prod \limits_{t<q\leq B} \left(1-\frac{3}{q}\right).
+s(t,B):=\prod \limits_{t\lt q\leq B} \left(1-\frac{3}{q}\right).
 $$
 
 Now let's look at this function more closely. First note that for each $q$, we have 
 
 $$
-0 < \left( 1- \frac{3}{q}\right) < \left( 1- \frac{1}{q}\right)^3
+0 \lt  \left( 1- \frac{3}{q}\right) \lt  \left( 1- \frac{1}{q}\right)^3
 $$
 
 since the difference is exactly $3/q^2 - 1/q^3$ which is positive. Now, taking limits and products, we get
