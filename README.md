@@ -6,14 +6,14 @@ Our goal is to construct strong pseudoprimes with respect to the base consisting
 
 Any prime number $p$ satisfies the following conditions:
 
-- (Fermat's little theorem) for any base $a \in \mathbb{Z}$ not divisible by $p$, we have that $a^{p-1} \equiv 1 \mathrm{mod} p$.
-- The only roots of unity over $\mathbb{F}_p$ are $\pm 1$. That is, $x^2 \equiv 1 \mathrm{mod} p \Leftrightarrow x \equiv \pm 1$.
+- (Fermat's little theorem) for any base $a \in \mathbb{Z}$ not divisible by $p$, we have that $a^{p-1} \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p$.
+- The only roots of unity over $\mathbb{F}_p$ are $\pm 1$. That is, $x^2 \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p \Leftrightarrow x \equiv \pm 1$.
 
 These two facts are always true for prime numbers, but often not true if we replace the prime $p$ with a composite $n$.
 
 The idea behind the Miller-Rabin probabilistic primality test is to check, for a given odd $n \in \mathbb{Z}$ and coprime base $a \in \mathbb{Z}$, whether it satisfies the two properties above. If not, then $n$ is definitely a composite number. However, if $n$ satisfies the two conditions for a base $a$, we cannot conclude whether it is a prime or not. In this case $n$ is either a prime or a **strong pseudoprime** to the base $a$.
 
-The test goes as follows: since $n$ is odd, we can write $n-1 = 2^sd$ for $d$ odd. Then, if $n$ is prime, we would have by Fermat's little theorem $(a^d)^{2^s} \equiv 1 \mathrm{mod} p $, and by taking $s$ successive square roots, all of the values $(a^d)^{2^r}$ for $0 \leq r \lt s$ would have to be congruent to $\pm 1$, by the second condition. The test then consists of simply checking whether this is true for all such $r$. It is clear that, starting from $r=0$, if any of the $(a^d)^{2^r}$ is congruent to $-1$, then all the subsequent values will be congruent to $1$, so it is enough to check if $a^d \equiv 1 \mathrm{mod} p$ or $(a^d)^{2^r} \equiv -1 \mathrm{mod} p$ for all $1 \leq r$ only up to $r=s-1$. 
+The test goes as follows: since $n$ is odd, we can write $n-1 = 2^sd$ for $d$ odd. Then, if $n$ is prime, we would have by Fermat's little theorem $(a^d)^{2^s} \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p $, and by taking $s$ successive square roots, all of the values $(a^d)^{2^r}$ for $0 \leq r \lt s$ would have to be congruent to $\pm 1$, by the second condition. The test then consists of simply checking whether this is true for all such $r$. It is clear that, starting from $r=0$, if any of the $(a^d)^{2^r}$ is congruent to $-1$, then all the subsequent values will be congruent to $1$, so it is enough to check if $a^d \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p$ or $(a^d)^{2^r} \equiv -1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p$ for all $1 \leq r$ only up to $r=s-1$. 
 
 We now remark that no composite number is a strong pseudoprime for all bases. In fact, at most $1/4$ of the bases between $1\lt a\lt n-1$ can make $n$ a strong pseudoprime. This means that, if $n$ is composite and $a$ a base chosen at random, there is less than $1/4$ chance that $n$ will pass the test. By choosing $k$ different bases at random, the chance is $(1/4)^k$, which can be made arbitrarily small. Since the test is also computationally cheap (more on this later), it is very good for determining whether a number is prime or not with very high accuracy.
 
@@ -117,7 +117,7 @@ for i in range(len(supplemental) // 2):
 ```
 </details> 
 
-We are now almost done. We only need to include two more simple relations that our residue $r$ must satisfy, namely $r \equiv k_3^{-1} \mathrm{mod} k_2$ and $r \equiv k_2^{-1} \mathrm{mod} k_3$. These are well defined by the definition of the $k_i$'s, and so is the solution to the final CRT when we include these to our previous compatible solution. 
+We are now almost done. We only need to include two more simple relations that our residue $r$ must satisfy, namely $r \equiv k_3^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} k_2$ and $r \equiv k_2^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} k_3$. These are well defined by the definition of the $k_i$'s, and so is the solution to the final CRT when we include these to our previous compatible solution. 
 
 <details>
 <summary>Click to show code</summary>
@@ -144,14 +144,14 @@ print('r = %d mod %d , k2=%d, k3=%d' % (r, mod, k[2], k[3]))
 ```
 </details> 
 
-We now have the congruence that our first prime $p_1$ must satisfy, namely $p_1 \equiv r \mathrm{mod} M$, for $M := \mathrm{lcm}(4,b_1,\dots,b_m,k_2,k_3)$ where again the $b_i$'s are all elements of $T$.
+We now have the congruence that our first prime $p_1$ must satisfy, namely $p_1 \equiv r \hspace{5pt} \mathrm{mod} \hspace{5pt} M$, for $M := \mathrm{lcm}(4,b_1,\dots,b_m,k_2,k_3)$ where again the $b_i$'s are all elements of $T$.
 
 The next step is simply finding a prime $p_1$ satisfying this residue condition, and such that we can build two more primes from it, as explained in the next section. This next step is also the most expensive one.
 
 ## Finding the three primes
 This is by far the most expensive part of our algorithm, both in terms of time and memory.
 
-We want to build a prime $p_1 \equiv r \mathrm{mod} M$, and such that $p_2 = k_2(p_1-1) + 1$  and $p_3 = k_3(p_1-1) + 1$ are also primes. Naively, we could try $r + j \cdot M$ for each $j\in \mathbb{N}$ and check whether this defines our three primes, but we can do better.
+We want to build a prime $p_1 \equiv r \hspace{5pt} \mathrm{mod} \hspace{5pt} M$, and such that $p_2 = k_2(p_1-1) + 1$  and $p_3 = k_3(p_1-1) + 1$ are also primes. Naively, we could try $r + j \cdot M$ for each $j\in \mathbb{N}$ and check whether this defines our three primes, but we can do better.
 It's clear that our three candidate numbers $p_1,p_2,p_3$ will never be divisible by any prime in $T$. However, we can also use knowledge from the structure of the three candidates to skip over values of $j \in \mathbb{N}$ for which one of the three $p$'s will be divisible by a small prime. This is best accomplished by constructing an appropriate sieve, which is done in the next section. 
 
 Afterwards, once we have candidates that passed the sieve, we also need to check if they really are prime numbers. We don't need absolute certainty that they are prime, because if they are not, they will likely fail the final Miller-Rabin test with respect to $T$, and then we can try again. This means that we need to check if they are highly-likely prime numbers, so in other words, we use a "pseudoprimality" test. Once again, we may use the structure of these candidates to improve on known primality tests, constructing our own customized primality test. This will be done in the second section of this chapter. 
@@ -162,9 +162,15 @@ Let $S$ be a set of "small" primes such that $S \cap (T \cup \{k_2,k_3 \}) = \em
 Let $A_i := k_i(r-1) + 1$, for $i=2,3$, so that $p_i = A_i + k_i  M j$. Then for any $q \in S$, we have that
 
 $$
-q|p_1 \Leftrightarrow  j  \equiv -rM^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
-q|p_2 \Leftrightarrow   j  \equiv -A_2(k_2M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q \\
-q|p_3 \Leftrightarrow  j  \equiv -A_3(k_3M)^{-1} \hspace{5pt} \mathrm{mod} \hspace{5pt} q
+q|p_1 \Leftrightarrow  j  \equiv -rM^{-1} \hspace{5pt} \hspace{5pt} \mathrm{mod} \hspace{5pt} \hspace{5pt} q 
+$$
+
+$$
+q|p_2 \Leftrightarrow   j  \equiv -A_2(k_2M)^{-1} \hspace{5pt} \hspace{5pt} \mathrm{mod} \hspace{5pt} \hspace{5pt} q 
+$$
+
+$$
+q|p_3 \Leftrightarrow  j  \equiv -A_3(k_3M)^{-1} \hspace{5pt} \hspace{5pt} \mathrm{mod} \hspace{5pt} \hspace{5pt} q
 $$
 
 Note that these inverses exist by the definition of $S$. Our sieve should therefore skip over the $j$'s satisfying any of the congruences above, for any prime $q \in S$, in which case one of the $p$'s won't be prime.
@@ -233,16 +239,16 @@ The ``` is_pseudoprime() ``` function in Sage uses the similar named function fr
 It is clear that for our candidate numbers $p_1,p_2,p_3$, the first step is not necessary. It turns out we can also make the second step faster, first by better implementing Miller-Rabin to the specific base 2, and then also by using knowledge about the structure of our candidates.
 
 First, note that for an odd prime $p = 2^sd + 1$, quadratic reciprocity with respect to the prime $2$ implies the following congruences:
-- $p \equiv 1 \mathrm{mod} 8 \; $   $ \; \Rightarrow \; $  $ ( \; 2^d \equiv 1 \mathrm{mod} p$ or $2^{2^rd} \equiv -1 \mathrm{mod} p$ for some $0 \leq r \leq s-2 \; )$
-- $p \equiv 3 \mathrm{mod} 8 \;$   $\; \Rightarrow \;$  $ \;\;\, 2^d \equiv -1 \mathrm{mod} p$
-- $p \equiv 5 \mathrm{mod} 8 \;$   $\; \Rightarrow \;$  $ \;\;\, 2^{2d} \equiv -1 \mathrm{mod} p$
-- $p \equiv 7 \mathrm{mod} 8 \;$   $\; \Rightarrow \;$  $ \;\;\, 2^d \equiv 1 \mathrm{mod} p$
+- $p \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8 \Rightarrow (  2^d \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p\text{ or }2^{2^rd} \equiv -1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p \text{ for some } 0 \leq r \leq s-2  )$
+- $p \equiv 3 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8  \Rightarrow 2^d \equiv -1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p$
+- $p \equiv 5 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8 \Rightarrow 2^{2d} \equiv -1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p$
+- $p \equiv 7 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8 \Rightarrow  2^d \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} p$
 
-Therefore the "full" Miller-Rabin test with base 2 is only necessary in the first case, when $p \equiv 1 \mathrm{mod} 8$, and it's enough to test only until $r \leq s-2$, not $s-1$. In the other cases, only one congruence needs to be tested. 
+Therefore the "full" Miller-Rabin test with base 2 is only necessary in the first case, when $p \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$, and it's enough to test only until $r \leq s-2$, not $s-1$. In the other cases, only one congruence needs to be tested. 
 
-The above remark also works well in our case, since we already know the value of $p_1 \mathrm{mod} 8$ from the construction, which is $p_1 \equiv r \mathrm{mod} 8$. In fact we don't even need to compute this value, since it was already computed in the construction of $r$, and it's none other than the first value in the list of candidate solutions ``` candidate_sol[0].```It is also easy to see from the definitions that $p_1 \equiv 1 \mathrm{mod} 8 \Leftrightarrow p_2,p_3 \equiv 1 \mathrm{mod} 8$ and hence $p_1 \equiv 5 \mathrm{mod} 8 \Leftrightarrow p_2,p_3 \equiv 5 \mathrm{mod} 8$. The cases where $p_1 \equiv 3 \mathrm{mod} 4$ are not so direct, and we need to compute $k_2$ and $k_3 \mathrm{mod} 8$ in order to get the residues of $p_2,p_3 \mathrm{mod} 8$. 
+The above remark also works well in our case, since we already know the value of $p_1 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$ from the construction, which is $p_1 \equiv r \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$. In fact we don't even need to compute this value, since it was already computed in the construction of $r$, and it's none other than the first value in the list of candidate solutions ``` candidate_sol[0].```It is also easy to see from the definitions that $p_1 \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8 \Leftrightarrow p_2,p_3 \equiv 1 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$ and hence $p_1 \equiv 5 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8 \Leftrightarrow p_2,p_3 \equiv 5 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$. The cases where $p_1 \equiv 3 \hspace{5pt} \mathrm{mod} \hspace{5pt} 4$ are not so direct, and we need to compute $k_2$ and $k_3 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$ in order to get the residues of $p_2,p_3 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$. 
 
-All of this can be done before the sieve loop, so we can already determine in which of the above cases we are, and which Miller-Rabin test with base 2 we need to perform in the loop. In fact, even the value of $s$ in $p-1 = 2^sd$ can be computed only once, for $p_1$, and it will be the same for $p_2$ and $p_3$, as per Arnault's lemma[^arnault]. This $s$ will necessarily be equal to $ 1$ if $p_1 \equiv 3$ or $7 \mathrm{mod} 8$, equal to $2$ if $p_1 \equiv 5 \mathrm{mod} 8$ and necessarily strictly greater than $2$ otherwise.
+All of this can be done before the sieve loop, so we can already determine in which of the above cases we are, and which Miller-Rabin test with base 2 we need to perform in the loop. In fact, even the value of $s$ in $p-1 = 2^sd$ can be computed only once, for $p_1$, and it will be the same for $p_2$ and $p_3$, as per Arnault's lemma[^arnault]. This $s$ will necessarily be equal to $ 1$ if $p_1 \equiv 3$ or $7 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$, equal to $2$ if $p_1 \equiv 5 \hspace{5pt} \mathrm{mod} \hspace{5pt} 8$ and necessarily strictly greater than $2$ otherwise.
 
 While the above discussion reveals certain small optimizations, it should be remarked that they are tiny compared to more computation heavy operations. Still, we want to optimize as much as possible everything that happens inside the big loop. 
 
